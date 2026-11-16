@@ -1,13 +1,13 @@
 {
-  "name": "@ai-swfactory-oss/seams-result",
+  "name": "@ai-swfactory-oss/fp",
   "description": "Results as literal ok-or-err data, built and composed by pure functions.",
   "version": "0.0.0",
   "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ai-swfactory-oss/seams-result.git",
-    "directory": "packages/seams-result"
+    "url": "git+https://github.com/ai-swfactory-oss/fp.git",
+    "directory": "packages/fp"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

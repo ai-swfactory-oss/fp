@@ -3,6 +3,6 @@
   "defaultBranch": "main",
   "guard": {},
   "packages": {
-    "@ai-swfactory-oss/seams-result": { "kind": "vocabulary" }
+    "@ai-swfactory-oss/fp": { "kind": "vocabulary" }
   }
 }
