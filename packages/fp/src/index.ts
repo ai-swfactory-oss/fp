@@ -35,6 +35,52 @@ export const match =
   (result: Result<T, E>): A | B =>
     result.ok ? handlers.ok(result.value) : handlers.err(result.error)
 
+export const mapErr =
+  <E, F>(f: (error: E) => F) =>
+  <T>(result: Result<T, E>): Result<T, F> =>
+    result.ok ? result : err(f(result.error))
+
+type NotPromise<T> = T extends PromiseLike<unknown> ? never : T
+
+export function fromThrowing<T, E>(run: () => NotPromise<T>, toError: (caught: unknown) => E): Result<T, E>
+export function fromThrowing(run: () => unknown, toError: (caught: unknown) => unknown): Result<unknown, unknown> {
+  try {
+    return ok(run())
+  } catch (caught) {
+    return err(toError(caught))
+  }
+}
+
+export function fromThrowingAsync<T, E>(run: () => PromiseLike<T>, toError: (caught: unknown) => E): Promise<Result<T, E>>
+export async function fromThrowingAsync(
+  run: () => PromiseLike<unknown>,
+  toError: (caught: unknown) => unknown,
+): Promise<Result<unknown, unknown>> {
+  try {
+    return ok(await run())
+  } catch (caught) {
+    return err(toError(caught))
+  }
+}
+
+type OkValue<X> = X extends Ok<infer T> ? T : never
+
+type ErrValue<X> = X extends Err<infer E> ? E : never
+
+type OkValues<R extends readonly Result<unknown, unknown>[]> = { -readonly [K in keyof R]: OkValue<R[K]> }
+
+type ErrOf<R extends readonly Result<unknown, unknown>[]> = ErrValue<R[number]>
+
+export function all<R extends readonly [] | readonly Result<unknown, unknown>[]>(results: R): Result<OkValues<R>, ErrOf<R>>
+export function all(results: readonly Result<unknown, unknown>[]): Result<unknown, unknown> {
+  const values: unknown[] = []
+  for (const result of results) {
+    if (!result.ok) return result
+    values.push(result.value)
+  }
+  return ok(values)
+}
+
 export function pipe<A>(value: A): A
 export function pipe<A, B>(value: A, s1: (a: A) => B): B
 export function pipe<A, B, C>(value: A, s1: (a: A) => B, s2: (b: B) => C): C
