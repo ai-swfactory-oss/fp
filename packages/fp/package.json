@@ -1,7 +1,7 @@
 {
   "name": "@ai-swfactory-oss/fp",
   "description": "Results as literal ok-or-err data, built and composed by pure functions.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "license": "MIT",
   "repository": {
