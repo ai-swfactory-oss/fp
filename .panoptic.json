@@ -3,6 +3,6 @@
   "defaultBranch": "main",
   "guard": {},
   "packages": {
-    "@ai-swfactory-oss/fp": { "kind": "vocabulary" }
+    "@ai-swfactory-oss/fp": { "kind": "sdk" }
   }
 }
