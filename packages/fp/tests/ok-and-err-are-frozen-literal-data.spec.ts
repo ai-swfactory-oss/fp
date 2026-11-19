@@ -37,13 +37,13 @@ describe('ok and err are frozen literal data', () => {
     expect(err(error)).not.toBe(err(error))
   })
 
-  it("the package entry's exported names are exactly all, err, flatMap, fromThrowing, fromThrowingAsync, map, mapErr, match, ok and pipe (rejects an export that slips past the type pins)", () => {
+  it("the package entry's exported names are exactly all, err, flatMap, fromPromise, fromThrowing, map, mapErr, match, ok and pipe (rejects an export that slips past the type pins)", () => {
     expect(Object.keys(entry).sort()).toEqual([
       'all',
       'err',
       'flatMap',
+      'fromPromise',
       'fromThrowing',
-      'fromThrowingAsync',
       'map',
       'mapErr',
       'match',

@@ -51,13 +51,10 @@ export function fromThrowing(run: () => unknown, toError: (caught: unknown) => u
   }
 }
 
-export function fromThrowingAsync<T, E>(run: () => PromiseLike<T>, toError: (caught: unknown) => E): Promise<Result<T, E>>
-export async function fromThrowingAsync(
-  run: () => PromiseLike<unknown>,
-  toError: (caught: unknown) => unknown,
-): Promise<Result<unknown, unknown>> {
+export function fromPromise<T, E>(promise: PromiseLike<T>, toError: (caught: unknown) => E): Promise<Result<T, E>>
+export async function fromPromise(promise: PromiseLike<unknown>, toError: (caught: unknown) => unknown): Promise<Result<unknown, unknown>> {
   try {
-    return ok(await run())
+    return ok(await promise)
   } catch (caught) {
     return err(toError(caught))
   }

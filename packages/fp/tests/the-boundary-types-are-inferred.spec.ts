@@ -1,6 +1,6 @@
 import { describe, expectTypeOf, it } from 'vitest'
 
-import { all, fromThrowing, fromThrowingAsync, mapErr, type Result } from '../src/index'
+import { all, fromPromise, fromThrowing, mapErr, type Result } from '../src/index'
 
 const error = { kind: 'read-failed' }
 
@@ -23,13 +23,11 @@ describe('the boundary types are inferred', () => {
 
   it("toError's parameter is unknown (rejects a toError typed Error, which a thrown string would violate)", () => {
     expectTypeOf<Parameters<Parameters<typeof fromThrowing>[1]>[0]>().toEqualTypeOf<unknown>()
-    expectTypeOf<Parameters<Parameters<typeof fromThrowingAsync>[1]>[0]>().toEqualTypeOf<unknown>()
+    expectTypeOf<Parameters<Parameters<typeof fromPromise>[1]>[0]>().toEqualTypeOf<unknown>()
   })
 
-  it('fromThrowingAsync returns a Promise of a Result of the resolved type (rejects a Result whose ok holds a promise)', () => {
-    expectTypeOf(fromThrowingAsync((): Promise<number> => Promise.resolve(1), toError)).toEqualTypeOf<
-      Promise<Result<number, { kind: string }>>
-    >()
+  it('fromPromise returns a Promise of a Result of the resolved type (rejects a Result whose ok holds a promise)', () => {
+    expectTypeOf(fromPromise(Promise.resolve(1), toError)).toEqualTypeOf<Promise<Result<number, { kind: string }>>>()
   })
 
   it('fromThrowing refuses a run that returns a promise (rejects a fromThrowing whose ok would hold an unmapped rejection)', () => {
